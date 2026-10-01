@@ -33,6 +33,12 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.CONFLICT, ex.getMessage(), request, Map.of());
     }
 
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<com.ecommerce.exception.ErrorResponse> handleConflict(
+            ConflictException ex, HttpServletRequest request) {
+        return build(HttpStatus.CONFLICT, ex.getMessage(), request, Map.of());
+    }
+
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<com.ecommerce.exception.ErrorResponse> handleBadRequest(
             BadRequestException ex, HttpServletRequest request) {
