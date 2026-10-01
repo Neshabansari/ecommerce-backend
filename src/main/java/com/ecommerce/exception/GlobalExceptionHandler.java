@@ -61,6 +61,12 @@ public class GlobalExceptionHandler {
                 "Invalid value for parameter '" + ex.getName() + "'", request, Map.of());
     }
 
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<com.ecommerce.exception.ErrorResponse> handleInvalidCredentials(
+            InvalidCredentialsException ex, HttpServletRequest request) {
+        return build(HttpStatus.UNAUTHORIZED, ex.getMessage(), request, Map.of());
+    }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<com.ecommerce.exception.ErrorResponse> handleAuthentication(
             AuthenticationException ex, HttpServletRequest request) {
