@@ -29,4 +29,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from Product p where p.id in :ids order by p.id")
     List<Product> findAllByIdForUpdate(@Param("ids") Collection<Long> ids);
+    // Used by the admin stock report.
+    List<Product> findByStockQuantityLessThanEqualOrderByStockQuantityAscNameAsc(int threshold);
 }
