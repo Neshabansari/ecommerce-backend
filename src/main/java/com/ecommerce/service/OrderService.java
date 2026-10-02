@@ -94,6 +94,13 @@ public class OrderService {
             throw new ConflictException(
                     "Only PENDING orders can be cancelled. This order is " + order.getStatus());
         }
+        restockAndCancel(order);
+        return OrderResponse.from(order);
+    }
+
+    /** Puts the stock back and marks the order CANCELLED. Shared by user and admin cancellation. */
+    @Transactional
+    public void restockAndCancel(Order order) {
         Map<Long, Product> products = lockProducts(
                 order.getItems().stream().map(item -> item.getProduct().getId()).toList());
         for (OrderItem item : order.getItems()) {
@@ -101,7 +108,6 @@ public class OrderService {
             product.setStockQuantity(product.getStockQuantity() + item.getQuantity());
         }
         order.setStatus(OrderStatus.CANCELLED);
-        return OrderResponse.from(order);
     }
 
     // A missing order and someone else's order both give 404, so ids cannot be probed.
