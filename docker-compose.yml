@@ -16,5 +16,28 @@ services:
       timeout: 5s
       retries: 5
 
+  # The API itself. It only starts when you ask for the "app" profile, so your
+  # normal "docker compose up -d" still starts just the database.
+  app:
+    profiles: ["app"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: ecommerce-app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Inside Docker the database is reached by its service name, on its own port 5432.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ecommerce_db
+      SPRING_DATASOURCE_USERNAME: ecommerce_user
+      SPRING_DATASOURCE_PASSWORD: ecommerce_pass
+      # Development defaults. For a real deployment, put your own values in a .env file.
+      JWT_SECRET: ${JWT_SECRET:-dev-only-secret-change-me-use-at-least-32-chars}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@ashgrove.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Admin@12345}
+    ports:
+      - "8080:8080"
+
 volumes:
   postgres_data:
