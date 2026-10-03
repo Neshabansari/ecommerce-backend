@@ -1,13 +1,25 @@
+//package com.ecommerce;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class EcommerceBackendApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}
+
 package com.ecommerce;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class EcommerceBackendApplicationTests {
+class EcommerceBackendApplicationTests extends AbstractIntegrationTest {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+        // Passes when the whole application starts against a real PostgreSQL.
+    }
 }
